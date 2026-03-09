@@ -1,5 +1,8 @@
-function Dashboard(){
-    return <h1>DashBoard</h1>
-}
+import {useState, useEffect} from 'react'
+import axios from 'axios'
 
-export default Dashboard
+function Dashboard(){
+    const [readings, setReadings] = useState([])
+
+    useEffect()
+}
