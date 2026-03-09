@@ -19,7 +19,7 @@ function Logs(){
     const deleteReading = async(id) => {
         try {
             await axios.delete(`http://localhost:5000/api/readings/${id}`)
-            setReadings(readings.filter(r=>r._id !==id))
+            setReadings(readings.filter(r=>r._id !==id)) //  keeps every reading in readings array except the one which matches the deleted id(if true stay in array otherwise not)
         } catch (err){  
             console.log(err)
             }
@@ -38,12 +38,12 @@ function Logs(){
           </tr>
         </thead>
         <tbody>
-          {readings.map(r => (
+          {readings.map(r => (  //loop through an array and transform each item to a table row
             <tr key={r._id}>
               <td>{r.voltage} V</td>
               <td>{r.current} A</td>
               <td>{r.power} W</td>
-              <td>{new Date(r.createdAt).toLocaleString()}</td>
+              { <td>{new Date(r.createdAt).toLocaleString()}</td>  /*r.createdAt:- converts to a javascript date object   toLocaleString():- Show the timestamp in a human-readable local format. */}
               <td>
                 <button onClick={() => deleteReading(r._id)}>Delete</button>
               </td>
