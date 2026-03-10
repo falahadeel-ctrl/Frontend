@@ -7,14 +7,16 @@ function Notes(){
     const [text, setText] = useState('')
     const [editId, setEditId] = useState(null)
 
-    useEffect(async function(){
+    useEffect(()=>{
+        const fetchNotes= async () =>{
  try{
     const res = await axios.get('http://localhost:5000/api/notes')
     setNotes(res.data)
  } catch (err){
     console.log(err)
  }
-    } fetchNotes()
+    } 
+    fetchNotes()
 }, [])
 
 const saveNote = async ()=>{
@@ -24,7 +26,7 @@ const saveNote = async ()=>{
             setNotes(notes.map(n=> n._id===editId? res.data: n))
             setEditId(null)
         } else{
-            const res = await axios.post('http://localhost:5000/api/notes', {title, tex})
+            const res = await axios.post('http://localhost:5000/api/notes', {title, text})
             setNotes([...notes, res.data])
         }
         setTitle('')
@@ -36,7 +38,7 @@ const saveNote = async ()=>{
 
 const editNote = (note)=>{
     setEditId(note._id)
-    setTtitle(note.title)
+    setTitle(note.title)
     setText(note.text)
 }
 
