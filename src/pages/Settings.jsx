@@ -1,18 +1,23 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react' 
+// useEffect allows us to automate actions so that we can syncronize with external systems (api requests, setTimeouts, webAPIs)
 import axios from 'axios'
 
 function Settings(){
-    const [name, setName] = useState('')
-    const [location, setLocation] = useState('')
+    const [GridNumber, setGridNumber] = useState('')
+    const [status, setStatus] = useState('')
     const [description, setDescription]= useState('')
 
-    useEffect(()=>{
+    useEffect(()=>{ //useEffect runs in 3 ways:
+    //1. no dependandies(runs at every rerender)
+    //2. empty dependancy array(runs only on Mount and when component is initialy rendered)
+    //3. populated dependency array runs on mount and everytime speciifed dependicy changes
+
         const fecthDevice= async ()=>{
             try{
                 const res = await axios.get('http://localhost:5000/api/device')
                 if(res.data){
-                    setNmae(res.data.name || '')
-                    setLocation(res.data.location || '')
+                    setGridNumber(res.data.GridNumber || '')
+                    setStatus(res.data.status || '')
                     setDescription(res.data.description || '')
                 }
             } catch (err){
@@ -24,7 +29,7 @@ function Settings(){
 
     const saveDevice = async ()=>{
         try{
-            await axios.put('http://localhost:5000/api/device',{name, location, description})
+            await axios.put('http://localhost:5000/api/device',{GridNumber, status, description})
             alert('Device info saved!')
         } catch (err){
             console.log(err)
@@ -34,17 +39,17 @@ function Settings(){
         <div>
       <h1>Device Settings</h1>
       <input
-        placeholder='Device Name'
-        value={name}
-        onChange={e => setName(e.target.value)}
+        placeholder='GridNumber'
+        value={GridNumber}
+        onChange={e => setGridNumber(e.target.value)}
       />
       <input
-        placeholder='Location'
-        value={location}
-        onChange={e => setLocation(e.target.value)}
+        placeholder='Status'
+        value={status}
+        onChange={e => setStatus(e.target.value)}
       />
       <input
-        placeholder='Description'
+        placeholder='description'
         value={description}
         onChange={e => setDescription(e.target.value)}
       />
