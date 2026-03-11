@@ -10,7 +10,7 @@ function Notes(){
     useEffect(()=>{
         const fetchNotes= async () =>{
  try{
-    const res = await axios.get('http://localhost:5000/api/notes')
+    const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/notes')
     setNotes(res.data)
  } catch (err){
     console.log(err)
@@ -22,11 +22,11 @@ function Notes(){
 const saveNote = async ()=>{
     try{
         if(editId){
-            const res= await axios.put (`http://localhost:5000/api/notes/${editId}`, { title, text })
+            const res= await axios.put (`https://smart-grid-dashboard-9bfs.onrender.com/api/notes/${editId}`, { title, text })
             setNotes(notes.map(n=> n._id===editId? res.data: n))
             setEditId(null)
         } else{
-            const res = await axios.post('http://localhost:5000/api/notes', {title, text})
+            const res = await axios.post('https://smart-grid-dashboard-9bfs.onrender.com/api/notes', {title, text})
             setNotes([...notes, res.data])
         }
         setTitle('')
@@ -44,7 +44,7 @@ const editNote = (note)=>{
 
 const deleteNote = async (id)=> {
     try {
-        await axios.delete(`http://localhost:5000/api/notes/${id}`)
+        await axios.delete(`https://smart-grid-dashboard-9bfs.onrender.com/api/notes/${id}`)
         setNotes(notes.filter(n=> n._id !== id))
     } catch (err){
         console.log(err)
@@ -52,30 +52,38 @@ const deleteNote = async (id)=> {
 }
 
 return (
-    <div>
-      <h1>Notes</h1>
-      <input
-        placeholder='Title'
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-      />
-      <input
-        placeholder='Text'
-        value={text}
-        onChange={e => setText(e.target.value)}
-      />
-      <button onClick={saveNote}>{editId ? 'Update' : 'Add Note'}</button>
+    <div className='container mt-4'>
+      <h1 className='text-primary fw-bold mb-4'>📝 Notes</h1>
+      <div className='card p-3 mb-4'>
+        <input
+          className='form-control mb-2'
+          placeholder='Title'
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <input
+          className='form-control mb-2'
+          placeholder='Text'
+          value={text}
+          onChange={e => setText(e.target.value)}
+        />
+        <button className='btn btn-primary' onClick={saveNote}>
+          {editId ? 'Update Note' : 'Add Note'}
+        </button>
+      </div>
 
       {notes.map(n => (
-        <div key={n._id}>
-          <h3>{n.title}</h3>
+        <div key={n._id} className='card p-3 mb-2'>
+          <h5 className='text-primary'>{n.title}</h5>
           <p>{n.text}</p>
-          <button onClick={() => editNote(n)}>Edit</button>
-          <button onClick={() => deleteNote(n._id)}>Delete</button>
+          <div className='d-flex gap-2'>
+            <button className='btn btn-warning btn-sm' onClick={() => editNote(n)}>Edit</button>
+            <button className='btn btn-danger btn-sm' onClick={() => deleteNote(n._id)}>Delete</button>
+          </div>
         </div>
       ))}
     </div>
-)
+  )
 }
 
 export default Notes

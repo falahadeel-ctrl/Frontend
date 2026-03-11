@@ -14,7 +14,7 @@ function Settings(){
 
         const fecthDevice= async ()=>{
             try{
-                const res = await axios.get('http://localhost:5000/api/device')
+                const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/device')
                 if(res.data){
                     setGridNumber(res.data.GridNumber || '')
                     setStatus(res.data.status || '')
@@ -29,33 +29,47 @@ function Settings(){
 
     const saveDevice = async ()=>{
         try{
-            await axios.put('http://localhost:5000/api/device',{GridNumber, status, description})
+            await axios.put('https://smart-grid-dashboard-9bfs.onrender.com/api/device',{GridNumber, status, description})
             alert('Device info saved!')
         } catch (err){
             console.log(err)
         }
     }
     return (
-        <div>
-      <h1>Device Settings</h1>
-      <input
-        placeholder='GridNumber'
-        value={GridNumber}
-        onChange={e => setGridNumber(e.target.value)}
-      />
-      <input
-        placeholder='Status'
-        value={status}
-        onChange={e => setStatus(e.target.value)}
-      />
-      <input
-        placeholder='description'
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-      />
-      <button onClick={saveDevice}>Save Changes</button>
+    <div className='container mt-4'>
+      <h1 className='text-primary fw-bold mb-4'>⚙️ Device Settings</h1>
+      <div className='card p-4'>
+        <div className='mb-3'>
+          <label className='form-label fw-bold'>Grid Number</label>
+          <input
+            className='form-control'
+            placeholder='Grid Number'
+            value={GridNumber}
+            onChange={e => setGridNumber(e.target.value)}
+          />
+        </div>
+        <div className='mb-3'>
+          <label className='form-label fw-bold'>Status</label>
+          <input
+            className='form-control'
+            placeholder='Status'
+            value={status}
+            onChange={e => setStatus(e.target.value)}
+          />
+        </div>
+        <div className='mb-3'>
+          <label className='form-label fw-bold'>Description</label>
+          <input
+            className='form-control'
+            placeholder='Description'
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
+        </div>
+        <button className='btn btn-primary' onClick={saveDevice}>Save Changes</button>
+      </div>
     </div>
-    )
+  )
 }
 
 export default Settings

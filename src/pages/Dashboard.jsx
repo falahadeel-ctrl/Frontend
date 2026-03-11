@@ -6,7 +6,7 @@ function Dashboard(){
 useEffect(() => {  //useEffect(hook) is a side effect which runs after the component renders
   const fetchReadings = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/readings')
+      const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/readings')
       setReadings(res.data)
     } catch (err) {
       console.log(err)
