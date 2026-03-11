@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react' 
 // useEffect allows us to automate actions so that we can syncronize with external systems (api requests, setTimeouts, webAPIs)
 import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 function Settings(){
     const [GridNumber, setGridNumber] = useState('')
@@ -14,7 +15,7 @@ function Settings(){
 
         const fecthDevice= async ()=>{
             try{
-                const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/device')
+                const res = await axios.get(`${BASE_URL}/device`)
                 if(res.data){
                     setGridNumber(res.data.GridNumber || '')
                     setStatus(res.data.status || '')
@@ -29,7 +30,7 @@ function Settings(){
 
     const saveDevice = async ()=>{
         try{
-            await axios.put('https://smart-grid-dashboard-9bfs.onrender.com/api/device',{GridNumber, status, description})
+            await axios.put(`${BASE_URL}/device`,{GridNumber, status, description})
             alert('Device info saved!')
         } catch (err){
             console.log(err)

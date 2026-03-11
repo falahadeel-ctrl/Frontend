@@ -1,5 +1,6 @@
 import { useState, useEffect} from 'react'
 import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 function Notes(){
     const [notes, setNotes] = useState([])
@@ -10,7 +11,7 @@ function Notes(){
     useEffect(()=>{
         const fetchNotes= async () =>{
  try{
-    const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/notes')
+    const res = await axios.get(`${BASE_URL}/notes`)
     setNotes(res.data)
  } catch (err){
     console.log(err)
@@ -22,11 +23,11 @@ function Notes(){
 const saveNote = async ()=>{
     try{
         if(editId){
-            const res= await axios.put (`https://smart-grid-dashboard-9bfs.onrender.com/api/notes/${editId}`, { title, text })
+            const res= await axios.put (`${BASE_URL}/notes/${editId}`, { title, text })
             setNotes(notes.map(n=> n._id===editId? res.data: n))
             setEditId(null)
         } else{
-            const res = await axios.post('https://smart-grid-dashboard-9bfs.onrender.com/api/notes', {title, text})
+            const res = await axios.post(`${BASE_URL}/notes`, {title, text})
             setNotes([...notes, res.data])
         }
         setTitle('')
@@ -44,7 +45,7 @@ const editNote = (note)=>{
 
 const deleteNote = async (id)=> {
     try {
-        await axios.delete(`https://smart-grid-dashboard-9bfs.onrender.com/api/notes/${id}`)
+        await axios.delete(`${BASE_URL}/notes/${id}`)
         setNotes(notes.filter(n=> n._id !== id))
     } catch (err){
         console.log(err)

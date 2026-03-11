@@ -1,6 +1,6 @@
 ## improvements
 
--connect it with grid
+- connect it with grid
 - notes according to specific logs(time/readings)
 
 -icon for webpage

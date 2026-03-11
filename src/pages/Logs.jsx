@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 function Logs(){
     const [readings, setReadings] = useState([])
@@ -7,7 +8,7 @@ function Logs(){
     useEffect(()=>{
         const fetchLogs = async ()=> {
             try {
-                const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/readings')
+                const res = await axios.get(`${BASE_URL}/readings`)
                 setReadings(res.data)
             } catch (err){
                 console.log(err)
@@ -18,7 +19,7 @@ function Logs(){
 
     const deleteReading = async(id) => {
         try {
-            await axios.delete(`https://smart-grid-dashboard-9bfs.onrender.com/api/readings/${id}`)
+            await axios.delete(`${BASE_URL}/readings/${id}`)
             setReadings(readings.filter(r=>r._id !==id)) //  keeps every reading in readings array except the one which matches the deleted id(if true stay in array otherwise not)
         } catch (err){  
             console.log(err)

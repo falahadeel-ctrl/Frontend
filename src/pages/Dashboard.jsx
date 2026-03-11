@@ -1,12 +1,13 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 function Dashboard(){
     const [readings, setReadings] = useState([])
 useEffect(() => {  //useEffect(hook) is a side effect which runs after the component renders
   const fetchReadings = async () => {
     try {
-      const res = await axios.get('https://smart-grid-dashboard-9bfs.onrender.com/api/readings')
+      const res = await axios.get(`${BASE_URL}/readings`)
       setReadings(res.data)
     } catch (err) {
       console.log(err)
